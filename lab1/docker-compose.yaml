@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  rest:    
+    build: rest_srv
+    ports:
+      - "21300:3000"
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: api
+    volumes:
+      - ${PWD}/init.db:/docker-entrypoint-initdb.d:ro
