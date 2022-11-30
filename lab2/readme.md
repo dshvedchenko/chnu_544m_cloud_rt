@@ -1,11 +1,8 @@
 Env : docker dektop moacOs
 
 1. Ensure kubernetes service enabled
-2. apply
-kubectl apply -f postgres-secret.yaml
-kubectl apply -f postgres-configmap.yaml
-kubectl apply -f postgres-deployment.yaml
-kubectl apply -f node-deployment.yaml
+2. build docker in rest_srv: docker build -t rest-srv-lab2:latest .
+2. kubectl apply -f infra.yaml
 
 3. check 
 curl http://localhost:3000
