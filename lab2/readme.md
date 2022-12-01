@@ -8,8 +8,8 @@
 
 ## main
 curl http://localhost:3000
-{"info":"Node.js, Express, and Postgres API"}
+{"info":"Node.js, Express, and SQLite3 API"}
 
 ## users rest api call 
 curl http://localhost:3000/users
-[{"id":1,"name":"Jerry","email":"jerry@example.com"},{"id":2,"name":"George","email":"george@example.com"}]
+[{"id":4,"name":"Jerry","email":"jerry@example.com"},{"id":5,"name":"George","email":"george@example.com"}]

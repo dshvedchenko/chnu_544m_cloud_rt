@@ -1,39 +1,67 @@
-const Pool = require('pg').Pool
-const pool = new Pool({
-  user: process.env.USER_ID || 'api',
-  host: process.env.DB_HOST || 'db',
-  database: process.env.DB_NAME || 'api',
-  password: process.env.DB_PASS || 'password',
-  port: process.env.DB_PORT || 5432,
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('./db/rest.sqlite', (err) => {
+  if (err) {
+    // Cannot open database
+    console.error(err.message)
+    throw err
+  }else{
+      console.log('Connected to the SQLite database.')
+      db.run(`CREATE TABLE IF NOT EXISTS users (
+              ID INTEGER PRIMARY KEY AUTOINCREMENT,
+              name VARCHAR(30),
+              email VARCHAR(30)
+              );`,
+      (err) => {
+          if (err) {
+              // Table already created
+          }else{
+            db.run('DELETE FROM users;', err => {if (err) { return console.log(err) } });
+            db.run(`INSERT INTO users (name, email) 
+                        VALUES ('Jerry', 'jerry@example.com'), 
+                        ('George', 'george@example.com');`,
+                    err => {if (err) { return console.log(err) } }
+                )
+          }
+      });  
+  }
 })
+
+
+
+
+
+
+
+
 const getUsers = (request, response) => {
-  pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
+  db.all('SELECT * FROM users ORDER BY id ASC', (error, results) => {
     if (error) {
       throw error
     }
-    response.status(200).json(results.rows)
+    response.status(200).json(results)
   })
 }
 
 const getUserById = (request, response) => {
   const id = parseInt(request.params.id)
 
-  pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+  db.all('SELECT * FROM users WHERE id = ?', [id], (error, results) => {
     if (error) {
       throw error
     }
-    response.status(200).json(results.rows)
+    response.status(200).json(results)
   })
 }
 
 const createUser = (request, response) => {
   const { name, email } = request.body
 
-  pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
+  db.run('INSERT INTO users (name, email) VALUES (?, ?)', [name, email], (error, results) => {
     if (error) {
       throw error
     }
-    response.status(201).send(`User added with ID: ${results.insertId}`)
+    console.log(this)
+    response.status(201).send(`User added with ID: ${this.lastID}`)
   })
 }
 
@@ -41,8 +69,8 @@ const updateUser = (request, response) => {
   const id = parseInt(request.params.id)
   const { name, email } = request.body
 
-  pool.query(
-    'UPDATE users SET name = $1, email = $2 WHERE id = $3',
+  db.run(
+    'UPDATE users SET name = ?, email = ? WHERE id = ?',
     [name, email, id],
     (error, results) => {
       if (error) {
@@ -56,7 +84,7 @@ const updateUser = (request, response) => {
 const deleteUser = (request, response) => {
   const id = parseInt(request.params.id)
 
-  pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
+  db.run('DELETE FROM users WHERE id = ?', [id], (error, results) => {
     if (error) {
       throw error
     }

@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const db = require('./queries')
-const port = 3000
+const port = 30001
 
 app.use(bodyParser.json())
 app.use(
@@ -12,7 +12,7 @@ app.use(
 )
 
 app.get('/', (request, response) => {
-  response.json({ info: 'Node.js, Express, and Postgres API' })
+  response.json({ info: 'Node.js, Express, and SQLite3 API' })
 })
 
 app.get('/users', db.getUsers)

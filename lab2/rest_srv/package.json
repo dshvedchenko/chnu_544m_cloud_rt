@@ -1,7 +1,7 @@
 {
-  "name": "node-api-postgres",
+  "name": "node-api-sqlite",
   "version": "1.0.0",
-  "description": "RESTful API with Node.js, Express, and PostgreSQL",
+  "description": "RESTful API with Node.js, Express, and SQLLite3",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "express": "^4.16.1",
-    "pg": "8.8.0"
+    "sqlite3": "^5.1.2"
   }
 }
