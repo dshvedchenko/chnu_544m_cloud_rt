@@ -4,4 +4,4 @@ services:
   rest:    
     build: rest_srv
     ports:
-      - "21300:3000"
+      - "30001:30001"

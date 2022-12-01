@@ -2,7 +2,7 @@ perform
 * docker compose build
 * docker compose up
 
-curl http://localhost:21300/users  to see list of users ( 2 initially inserted )
+curl http://localhost:30001/users  to see list of users ( 2 initially inserted )
 
 
 ----
